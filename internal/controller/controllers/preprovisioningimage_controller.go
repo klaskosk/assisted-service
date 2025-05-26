@@ -446,7 +446,11 @@ func (r *PreprovisioningImageReconciler) getIronicConfigFromBMOConfig(ctx contex
 		architectures,
 		iccConfig.IronicAgentImage,
 		infraEnvInternal.CPUArchitecture)
-	return nil
+
+	// Even though the Ironic agent image is the wrong architecture, the rest of the config is fine.
+	iccConfig.IronicAgentImage = ""
+
+	return iccConfig
 }
 
 func (r *PreprovisioningImageReconciler) getIronicAgentImageFromHUB(ctx context.Context, log logrus.FieldLogger, infraEnvInternal *common.InfraEnv) string {
